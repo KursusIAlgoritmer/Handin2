@@ -4,15 +4,35 @@ public class HandIn2 {
 
         In in = new In(args[0]);
 
-        Digraph G = new Digraph(in);
+        int v = in.readInt();
 
-        int startKnude  = Integer.parseInt(args[1]);
-        int slutKnude   = Integer.parseInt(args[2]);
+        Digraph G = new Digraph(v);
 
-        StdOut.println("TIDEN: " + beregningAfTid(startKnude,slutKnude,G));
+        for(int i = 1 ; i < v; i++ ){
+          int p = in.readInt();
+          G.addEdge(p, i);
+        }
 
-        for(int v : findKortestVejfraAtilB(startKnude,slutKnude,G))
-          StdOut.println(v);
+        int n = in.readInt();
+
+        for(int j = 0; j < n; j++ ){
+          String kommando = in.readString();
+          int startKnude  = in.readInt();
+          int slutKnude   = in.readInt();
+
+          if(kommando.equals("vej")){
+            Stack<Integer> vej = findKortestVejfraAtilB(startKnude,slutKnude,G);
+            int antal = vej.size();
+            for(int i= 0 ; i < antal; i++){
+              if(i< antal-1)  StdOut.print(vej.pop() + "->");
+              if(i==antal-1)  StdOut.println(vej.pop());
+            }
+          }
+          if(kommando.equals("tid")){
+              StdOut.println(beregningAfTid(startKnude,slutKnude,G));
+          }
+
+        }
 
     }
 
@@ -46,12 +66,9 @@ public class HandIn2 {
       return shortestPath;
     }
 
-
-
     private static void pushFraStakTilStak(Stack<Integer> knudeListeFra, Stack<Integer> knudeListeTil){
       for(int i : knudeListeFra) knudeListeTil.push(i);
     }
-
 
     private static Stack<Integer> kortesteVejTil(DepthFirstDirectedPaths dfs, Iterable<Integer> knudeListe) {
         Stack<Integer> kortesteVej = new Stack<Integer>();
@@ -80,6 +97,5 @@ public class HandIn2 {
             return new Stack<Integer>();
         }
     }
-
 
 }
