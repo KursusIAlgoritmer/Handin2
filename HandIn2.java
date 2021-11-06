@@ -9,10 +9,26 @@ public class HandIn2 {
         int startKnude  = Integer.parseInt(args[1]);
         int slutKnude   = Integer.parseInt(args[2]);
 
-        for(int v : findKortestVejfraAtilB(startKnude,slutKnude,G)) StdOut.println(v);
+        StdOut.println("TIDEN: " + beregningAfTid(startKnude,slutKnude,G));
+
+        for(int v : findKortestVejfraAtilB(startKnude,slutKnude,G))
+          StdOut.println(v);
 
     }
 
+   private static int beregningAfTid(int startKnude, int slutKnude, Digraph rettetGraf){
+        int tid = 0;
+        int sidsteKnude = 0;
+        for(int denneKnude : findKortestVejfraAtilB(startKnude,slutKnude,rettetGraf)){
+            if(sidsteKnude !=0 && denneKnude ==0 ){
+               tid+=5;
+             }else{
+               tid+=1;
+            }
+            sidsteKnude = denneKnude;
+        }
+        return tid-1;
+    }
 
     private static Stack<Integer> findKortestVejfraAtilB(int startKnude, int slutKnude,Digraph rettetGraf ){
       Stack<Integer> shortestPath = new Stack<Integer>();
@@ -21,7 +37,7 @@ public class HandIn2 {
       DepthFirstDirectedPaths dfs = new DepthFirstDirectedPaths(rettetGraf, startKnude);
       Stack<Integer> directPath = denDirekteVej(dfs,slutKnude);
 
-      //Eller hurtigst til bund + fra top til slutKnude
+      //Eller vej hurtigst fra startKnude til bund + vej fra top til slutKnude
       if(directPath.isEmpty()){
         putAlleKnuder(directPath, kortesteVejTil(dfs,findBundKnuder(rettetGraf)) );
         putAlleKnuder(directPath, denDirekteVej(new DepthFirstDirectedPaths(rettetGraf, 0),slutKnude) );
@@ -36,9 +52,7 @@ public class HandIn2 {
 
 
     private static void putAlleKnuder(Stack<Integer> knudeListeTil, Stack<Integer> knudeListeFra){
-      for(int i : knudeListeFra)
-        knudeListeTil.push(i);
-
+      for(int i : knudeListeFra) knudeListeTil.push(i);
     }
 
 
