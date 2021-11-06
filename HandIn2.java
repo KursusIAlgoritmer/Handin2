@@ -20,12 +20,8 @@ public class HandIn2 {
         int tid = 0;
         int sidsteKnude = 0;
         for(int denneKnude : findKortestVejfraAtilB(startKnude,slutKnude,rettetGraf)){
-            if(sidsteKnude !=0 && denneKnude ==0 ){
-               tid+=5;
-             }else{
-               tid+=1;
-            }
-            sidsteKnude = denneKnude;
+           tid = (sidsteKnude !=0 && denneKnude ==0) ? tid+5 : tid +1;
+           sidsteKnude = denneKnude;
         }
         return tid-1;
     }
@@ -39,9 +35,9 @@ public class HandIn2 {
 
       //Eller vej hurtigst fra startKnude til bund + vej fra top til slutKnude
       if(directPath.isEmpty()){
-        putAlleKnuder(directPath, kortesteVejTil(dfs,findBundKnuder(rettetGraf)) );
-        putAlleKnuder(directPath, denDirekteVej(new DepthFirstDirectedPaths(rettetGraf, 0),slutKnude) );
-        putAlleKnuder(shortestPath, directPath);
+        pushKnuder(directPath, kortesteVejTil(dfs,findBundKnuder(rettetGraf)) );
+        pushKnuder(directPath, denDirekteVej(new DepthFirstDirectedPaths(rettetGraf, 0),slutKnude) );
+        pushKnuder(shortestPath, directPath);
       }else{
         shortestPath = directPath;
       }
@@ -51,7 +47,7 @@ public class HandIn2 {
 
 
 
-    private static void putAlleKnuder(Stack<Integer> knudeListeTil, Stack<Integer> knudeListeFra){
+    private static void pushKnuder(Stack<Integer> knudeListeTil, Stack<Integer> knudeListeFra){
       for(int i : knudeListeFra) knudeListeTil.push(i);
     }
 
