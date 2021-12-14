@@ -1,6 +1,8 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+// hej
+
 /**
  *  The {@code Bag} class represents a bag (or multiset) of
  *  generic items. It supports insertion and iterating over the
